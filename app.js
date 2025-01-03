@@ -61,7 +61,6 @@ const sessionOptions = {
         expires:Date.now() + 7 * 24 * 60 * 60 * 1000,
         maxAge: 7 * 24 * 60 * 60 * 1000,
         httpOnly: true ,
-        
     }
   };
 
@@ -92,6 +91,10 @@ async function main(){
 }
 
 // //--------------------- Root Route -----------------------
+// app.get("/",(req,res)=>{
+//     res.send("Hi, I am Root");
+//     // res.redirect("/login");
+// })
 // app.get("/",(req,res)=>{
 //     res.send("Hi, I am Root");
 //     // res.redirect("/login");
