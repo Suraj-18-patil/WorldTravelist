@@ -1,0 +1,277 @@
+<% layout("/layouts/boilerplate") %>
+
+<!-- <script>
+    const mapToken = "<%= process.env.MAP_TOKEN %>";
+    const listing = <%- JSON.stringify(listing) %>;
+    // const location = <%= listing.location %>;
+</script> -->
+
+
+
+<div class="row mt-3">
+    <div class="col-8 offset-2 mb-2">
+            <b><%= listing.title %></b>
+    </div>
+
+    <div class="card col-8 offset-2  show-card listing-card">
+        <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listings_image">
+        <div class="card-body mt-4">
+            <p><i> Owned By :- <%= listing.owner.username %></i></p>
+            
+            <p class="card-text">
+                <%= listing.description %>
+            </p>
+            <p class="card-text">
+                &#8377;<%= listing.price %>
+            </p>
+            <p class="card-text">
+                <%= listing.location %>
+            </p>
+            <p class="card-text">
+                <%= listing.country %>
+            </p>
+        </div>
+    </div>
+
+    <div class="row col-md-8 offset-2 func-btn ">
+        <% if(currUser && listing.owner._id.equals(currUser._id)) { %>
+            <div class="col-md-1">
+                    <!-- <button class="btn btn-dark edit-btn1">
+                        <a href="/listings/<%= listing._id %>/edit"> Edit </a>
+                    </button> -->
+                    <!-- <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark edit-btn1"> Edit </a> -->
+                    <form method="GET" action="/listings/<%= listing._id %>/edit">
+                        <button class="btn btn-dark edit-btn1"><a href="/listings/<%= listing._id %>/edit">Edit</a></button>
+                    </form>           
+            </div>
+            
+            <div class="col-md-1">
+                <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE"  >
+                    <button class="btn btn-dark delete-btn"> Delete This Listing</button>
+                </form>
+            </div>
+        <% } %>    
+
+            <div class="col-md-1">
+                <button class="btn btn-dark back-btn1 "> 
+                    <a href="/listings"> << Go Back </a>
+                </button>
+            </div> 
+        </div>
+        
+        <hr>
+        
+        <div class="col-8 offset-2 mb-3 review-form">
+            <% if(currUser){ %>
+                <h4 class="offset-3"><b>======>Leave A Review<=======</b></h4>
+                <form action="/listings/<%= listing.id %>/reviews" method="POST" novalidate class="needs-validation">
+                    <!-- <div class="mb-3 mt-2">
+                        <label for="rating" class="form-label"><b>Rating</b></label>
+                        <input type="range" name="review[rating]" min="1" max="5" id="rating"  class="form-range" />
+                    </div> -->
+                    
+                    <div class="mb-3 mt-2">
+                        <label for="rating" class="form-label"><b>Rating</b></label>
+                        <fieldset class="starability-slot">
+                            <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
+                            <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                            <label for="first-rate1" title="Terrible">1 star</label>
+                            <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                            <label for="first-rate2" title="Not good">2 stars</label>
+                            <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                            <label for="first-rate3" title="Average">3 stars</label>
+                            <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                            <label for="first-rate4" title="Very good">4 stars</label>
+                            <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                            <label for="first-rate5" title="Amazing">5 stars</label>
+                        </fieldset>
+                    </div>
+
+
+                    
+                    <div class="mb-3 mt-2">
+                        <label for="comment" class="form-label"><b>Comments</b></label>
+                        <textarea name="review[comment]" id="comment" rows="5" cols="70" placeholder="Enter Your Comments Here..." class="form-control" required ></textarea>
+                    </div>
+                    <button class="btn btn-outline-danger ">Submit</button>
+                </form>
+
+            <% } %>
+                
+            
+            <% if (listing.reviews.length > 0) {  %>
+                <hr/>
+                <div class="row mt-3">
+                    <h4><b>All Reviews</b></h4>
+                        <% for(review of listing.reviews){ %>
+                            <div class="card col-5 ms-4 mb-3 mx-4"> 
+                                <div class="card-body m-2">
+                                    <h5 class="card-title">@<b><%= review.author.username %></b></h5>
+                                    <hr>
+                                    <p class="starability-result card-text" data-rating="<%= review.rating %>">Rating</p>
+                                    <p class="card-text"><%= review.comment %></p>
+                                    <p><i><%= review.createdAt.toString().split(" ").slice(0,4).join(" ") %></i> &nbsp;&nbsp; &nbsp;&nbsp; <%= review.createdAt.toString().split(" ")[4] %></p>
+                                    
+                                </div>
+                                <form   class="mb-3" method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+                                    <button class="btn btn-sm btn-dark">Delete</button>
+                                </form>
+                            </div>
+                        <% } %>
+                    </div>
+                    <hr/>
+                <%  } %>                          
+        </div>
+
+        <div class="col-8 offset-2 mb-3">
+            <h3> Where You'll Be </h3>
+            <div id="map"> Google Map (Mapbox)</div>
+        </div>
+</div>
+
+
+<!-- <script src="/JS/map.js"></script> -->
+
+    
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- =============================================================================================== -->
+ <!-- <ul>
+            <li><%= listing.title %></li>
+            <li><%= listing.description %></li>
+            <li><%= listing.image %></li>
+            <li>&#8377; <%= listing.price .toLocaleString("en-IN") %></li>
+            <li><%= listing.location %></li>
+            <li><%= listing.country %></li>
+        </ul>-->
+         <!-- <p class="card-text">
+                <b><%= listing.title %></b> <br>
+                <%= listing.description %> <br>
+                &#8377;<%= listing.price %> <br>
+                <%= listing.location %> <br>
+                <%= listing.country %> <br>
+            </p> -->
+            <!-- Use Above OR Below Anyone as Your line number 10 Convienient -->
+            
+<!-- ------------------------------------------------------ -->
+         <!-- <button class=" btn btn-dark edit-btn1">
+            <a href="/listings/<%= listing._id %>/edit">Edit</a>
+        </button>
+    
+        <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE"  >
+            <button class="btn btn-dark delete-btn" >Delete This Listing</button>
+        </form>
+
+        <button class="btn btn-dark back-btn1 "> 
+                <a href="/listings"><< GO BACK </a>
+        </button> -->
+        <!-- --------------------------------------------------- -->
+         <!-- <div class="func-btn">
+            <button class=" btn btn-dark edit-btn1">
+                <a href="/listings/<%= listing._id %>/edit">Edit</a>
+            </button>
+        </div>
+        <div class="func-btn">
+            <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE"  >
+                <button class="btn btn-dark delete-btn" >Delete This Listing</button>
+            </form>
+
+        </div>
+        <div class="func-btn">
+            <button class="btn btn-dark back-btn1 "> 
+                <a href="/listings"><< GO BACK </a>
+            </button>
+        </div> -->
